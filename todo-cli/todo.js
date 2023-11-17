@@ -95,7 +95,7 @@ const todoList = () => {
                 
                 if (item.completed){
 
-                    return "[X]"+" "+item.title
+                    return "[x]"+" "+item.title
                 }
                 else{
                     return "[ ]"+" "+item.title
