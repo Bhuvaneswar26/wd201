@@ -144,7 +144,6 @@ const todoList = () => {
     new Date(new Date().setDate(dateToday.getDate() + 1))
   )
 
-  console.log(today,yesterday,tomorrow)
   
   todos.add({ title: 'Submit assignment', dueDate: yesterday, completed: false })
   todos.add({ title: 'Pay rent', dueDate: today, completed: true })
