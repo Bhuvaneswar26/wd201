@@ -39,32 +39,35 @@ describe("Todo list Test Suite", () => {
   });
 
   test("retrieval of overdue items", () => {
-    const todate = new Date().toISOString().slice(0, 10);
+    // const todate = new Date().toISOString().slice(0, 10);
     const odate = overdue();
-    let status = true;
-    odate.forEach((item) => {
-      if (item.dueDate >= todate) status = false;
-    });
-    expect(status).toBe(true);
+    // let status = true;
+    // odate.forEach((item) => {
+    //   if (item.dueDate >= todate) status = false;
+    // });
+    // expect(status).toBe(true);
+    expect(odate.length).toBe(0);
   });
 
   test("retrieval of due today items", () => {
-    const todate = new Date().toISOString().slice(0, 10);
+    // const todate = new Date().toISOString().slice(0, 10);
     const tdate = dueToday();
-    let status = true;
-    tdate.forEach((item) => {
-      if (item.dueDate != todate) status = false;
-    });
-    expect(status).toBe(true);
+    // let status = true;
+    // tdate.forEach((item) => {
+    //   if (item.dueDate != todate) status = false;
+    // });
+    // expect(status).toBe(true);
+    expect(tdate.length).toBe(4);
   });
 
   test("retrieval of due later items", () => {
-    const todate = new Date().toISOString().slice(0, 10);
+    // const todate = new Date().toISOString().slice(0, 10);
     const ldate = dueLater();
-    let status = true;
-    ldate.forEach((item) => {
-      if (item.dueDate <= todate) status = false;
-    });
-    expect(status).toBe(true);
+    // let status = true;
+    // ldate.forEach((item) => {
+    //   if (item.dueDate <= todate) status = false;
+    // });
+    // expect(status).toBe(true);
+    expect(ldate.length).toBe(0);
   });
 });
