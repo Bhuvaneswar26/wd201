@@ -5,10 +5,20 @@ const { all, add, markAsComplete, overdue, dueToday, dueLater } = todo_list();
 
 describe("Todo list Test Suite", () => {
   beforeAll(() => {
+    let tdate = new Date();
     add({
       titile: "Test todo",
       completed: false,
-      dueDate: new Date().toISOString().slice(0, 10),
+      dueDate: new Date(new Date().setDate(tdate.getDate() + 1))
+        .toISOString()
+        .slice(0, 10),
+    });
+    add({
+      titile: "Test todo",
+      completed: false,
+      dueDate: new Date(new Date().setDate(tdate.getDate() + 1))
+        .toISOString()
+        .slice(0, 10),
     });
     add({
       titile: "Test todo",
@@ -18,7 +28,16 @@ describe("Todo list Test Suite", () => {
     add({
       titile: "Test todo",
       completed: false,
-      dueDate: new Date().toISOString().slice(0, 10),
+      dueDate: new Date(new Date().setDate(tdate.getDate() - 1))
+        .toISOString()
+        .slice(0, 10),
+    });
+    add({
+      titile: "Test todo",
+      completed: false,
+      dueDate: new Date(new Date().setDate(tdate.getDate() - 1))
+        .toISOString()
+        .slice(0, 10),
     });
   });
   test("creating a new todo", () => {
@@ -46,7 +65,7 @@ describe("Todo list Test Suite", () => {
     //   if (item.dueDate >= todate) status = false;
     // });
     // expect(status).toBe(true);
-    expect(odate.length).toBe(0);
+    expect(odate.length).toBe(2);
   });
 
   test("retrieval of due today items", () => {
@@ -57,7 +76,7 @@ describe("Todo list Test Suite", () => {
     //   if (item.dueDate != todate) status = false;
     // });
     // expect(status).toBe(true);
-    expect(tdate.length).toBe(4);
+    expect(tdate.length).toBe(2);
   });
 
   test("retrieval of due later items", () => {
@@ -68,6 +87,6 @@ describe("Todo list Test Suite", () => {
     //   if (item.dueDate <= todate) status = false;
     // });
     // expect(status).toBe(true);
-    expect(ldate.length).toBe(0);
+    expect(ldate.length).toBe(2);
   });
 });
