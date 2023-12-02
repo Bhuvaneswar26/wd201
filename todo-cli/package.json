@@ -7,7 +7,6 @@
     "test": "jest",
     "prepare": "cd ..&& husky  install todo-cli/.husky",
     "lint-staged": "lint-staged"
-    
   },
   "author": "",
   "license": "ISC",
@@ -24,5 +23,4 @@
       "prettier --write ."
     ]
   }
-  
 }
