@@ -10,6 +10,16 @@ describe("Todo list Test Suite", () => {
       completed: false,
       dueDate: new Date().toISOString().slice(0, 10),
     });
+    add({
+      titile: "Test todo",
+      completed: false,
+      dueDate: new Date().toISOString().slice(0, 10),
+    });
+    add({
+      titile: "Test todo",
+      completed: false,
+      dueDate: new Date().toISOString().slice(0, 10),
+    });
   });
   test("creating a new todo", () => {
     let len = all.length;
@@ -18,7 +28,8 @@ describe("Todo list Test Suite", () => {
       completed: false,
       dueDate: new Date().toISOString().slice(0, 10),
     });
-    expect(all.length).toBe(len + 1);
+    len += 1;
+    expect(all.length).toBe(len);
   });
 
   test("marking a todo as completed.", () => {
