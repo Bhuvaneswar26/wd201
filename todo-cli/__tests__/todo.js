@@ -1,3 +1,4 @@
+/* eslint-disable no-undef */
 const todo_list = require("../todo");
 
 const {all,add,markAsComplete} = todo_list();

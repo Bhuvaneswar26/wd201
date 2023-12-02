@@ -146,11 +146,3 @@ const todoList = () => {
 
 
 module.exports = todoList;
-
-
-function f1(){
-  let a = 10;
-
-  let b =  20;
-  console.log("hello",a+b)
-}
