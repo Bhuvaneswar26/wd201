@@ -1,3 +1,4 @@
+let all = [];
 const formattedDate = (d) => {
   return d.toISOString().split("T")[0];
 };
@@ -143,6 +144,5 @@ const todoList = () => {
 // let formattedItemsDueLater = todos.toDisplayableList(itemsDueLater);
 // console.log(formattedItemsDueLater);
 // console.log("\n\n");
-
 
 module.exports = todoList;
