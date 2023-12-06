@@ -1,5 +1,7 @@
 body {
   font-family: "Courier New", Courier, monospace;
-  background-color: black;
-  color: white;
+}
+
+.Todo-item:hover .Todo-icon{
+  display: block;
 }

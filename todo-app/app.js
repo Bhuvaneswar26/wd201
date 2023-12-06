@@ -11,8 +11,10 @@ app.use(express.static(path.join(__dirname, "public")));
 
 app.get("/", async function (request, response) {
   try {
-    const todos = await Todo.allTodos();
-    response.render("index", { todos });
+    const overdues = await Todo.overdue();
+    const todaydues = await Todo.todaydue();
+    const laterdues = await Todo.laterdue();
+    response.render("index", { overdues, todaydues, laterdues });
   } catch (err) {
     console.log(err);
     response.status(422).send(err);
