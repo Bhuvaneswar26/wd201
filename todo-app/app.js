@@ -2,11 +2,21 @@ const express = require("express");
 const app = express();
 const { Todo } = require("./models");
 const bodyParser = require("body-parser");
+const path = require("path");
 
 app.use(bodyParser.json());
 
-app.get("/", function (request, response) {
-  response.send("Hello World");
+app.set("view engine", "ejs");
+app.use(express.static(path.join(__dirname, "public")));
+
+app.get("/", async function (request, response) {
+  try {
+    const todos = await Todo.allTodos();
+    response.render("index", { todos });
+  } catch (err) {
+    console.log(err);
+    response.status(422).send(err);
+  }
 });
 
 app.get("/todos", async function (request, response) {

@@ -1,0 +1,14 @@
+<table>
+    <tr>
+        <th>Title</th>
+        <th>Due Date</th>
+        <th>Commpleted</th>
+    </tr>
+    <% for (let i = 0; i < todos.length;i++){ %>
+    <tr>
+        <td><%= todos[i].title %></td>
+        <td><%= todos[i].dueDate %></td>
+        <td><%= todos[i].completed %></td>
+    </tr>
+    <% } %>
+</table>
