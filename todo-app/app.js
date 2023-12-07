@@ -4,6 +4,7 @@ const { Todo } = require("./models");
 const bodyParser = require("body-parser");
 const path = require("path");
 
+app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
 app.set("view engine", "ejs");
@@ -14,7 +15,12 @@ app.get("/", async function (request, response) {
     const overdues = await Todo.overdue();
     const todaydues = await Todo.todaydue();
     const laterdues = await Todo.laterdue();
-    response.render("index", { overdues, todaydues, laterdues });
+    const comptodos = await Todo.completedtodos();
+    if (request.accepts("html")) {
+      response.render("index", { overdues, todaydues, laterdues, comptodos });
+    } else {
+      response.json({ overdues, todaydues, laterdues, comptodos });
+    }
   } catch (err) {
     console.log(err);
     response.status(422).send(err);
@@ -51,18 +57,21 @@ app.get("/todos/:id", async function (request, response) {
 app.post("/todos", async function (request, response) {
   try {
     const todo = await Todo.addTodo(request.body);
-    return response.json(todo);
+    if (request.accepts("html")) {
+      return response.redirect("/");
+    } else {
+      return response.json(todo);
+    }
   } catch (error) {
-    console.log(error);
+    console.error(error); // Log the error for debugging
     return response.status(422).json(error);
   }
 });
 
-app.put("/todos/:id/markAsCompleted", async function (request, response) {
+app.put("/todos/:id", async function (request, response) {
   const todo = await Todo.findByPk(request.params.id);
-  console.log(todo);
   try {
-    const updatedTodo = await todo.markAsCompleted();
+    const updatedTodo = await todo.setCompletionStatus(request.body.completed);
     return response.json(updatedTodo);
   } catch (error) {
     console.log(error);

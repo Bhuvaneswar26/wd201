@@ -11,8 +11,8 @@ module.exports = (sequelize, DataTypes) => {
       // define association here
     }
 
-    markAsCompleted() {
-      return this.update({ completed: true });
+    setCompletionStatus(params) {
+      return this.update({ completed: !params });
     }
 
     static allTodos() {
@@ -22,8 +22,9 @@ module.exports = (sequelize, DataTypes) => {
     static overdue() {
       return this.findAll({
         where: {
-          dueDate: {
-            [Op.lt]: new Date(), // Using the less than (<) operator
+          [Op.and]: {
+            dueDate: { [Op.lt]: new Date() },
+            completed: { [Op.not]: true },
           },
         },
       });
@@ -32,8 +33,9 @@ module.exports = (sequelize, DataTypes) => {
     static todaydue() {
       return this.findAll({
         where: {
-          dueDate: {
-            [Op.eq]: new Date(), // Using the less than (<) operator
+          [Op.and]: {
+            dueDate: { [Op.eq]: new Date() },
+            completed: { [Op.not]: true },
           },
         },
       });
@@ -42,9 +44,18 @@ module.exports = (sequelize, DataTypes) => {
     static laterdue() {
       return this.findAll({
         where: {
-          dueDate: {
-            [Op.gt]: new Date(), // Using the less than (<) operator
+          [Op.and]: {
+            dueDate: { [Op.gt]: new Date() },
+            completed: { [Op.not]: true },
           },
+        },
+      });
+    }
+
+    static completedtodos() {
+      return this.findAll({
+        where: {
+          completed: true,
         },
       });
     }
