@@ -80,6 +80,10 @@ app.set("view engine", "ejs");
 app.use(express.static(path.join(__dirname, "public")));
 
 app.get("/", async function (request, response) {
+  if (request.isAuthenticated()) {
+    return response.redirect("/todos");
+  }
+
   response.render("index", {
     title: "Todo application",
   });
@@ -187,13 +191,24 @@ app.get("/signup", async function (request, response) {
   response.render("signup", { title: "signup" });
 });
 app.post("/users", async function (request, response) {
-  const hashpass = await bcrypt.hash(request.body.password, saltRounds);
+  const { firstName, lastName, email, password } = request.body;
+
+  // Check if the password is empty
+  if (!password) {
+    // Flash an error message
+    request.flash("error", "Password is required.");
+
+    // Redirect to the same page or a designated error page
+    return response.redirect("/signup"); // You can customize the redirect URL
+  }
+
+  const hashpass = await bcrypt.hash(password, saltRounds);
 
   try {
     const user = await User.create({
-      firstName: request.body.firstName,
-      lastName: request.body.lastName,
-      email: request.body.email,
+      firstName: firstName,
+      lastName: lastName,
+      email: email,
       password: hashpass,
     });
 
