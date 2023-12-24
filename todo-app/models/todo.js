@@ -1,5 +1,6 @@
 "use strict";
 const { Model, Op } = require("sequelize");
+const { request } = require("../app");
 module.exports = (sequelize, DataTypes) => {
   class Todo extends Model {
     /**
@@ -9,6 +10,9 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
+      Todo.belongsTo(models.User,{
+        foreignKey:'userId'
+      })
     }
 
     setCompletionStatus(params) {
@@ -19,59 +23,65 @@ module.exports = (sequelize, DataTypes) => {
       return this.findAll();
     }
 
-    static overdue() {
+    static overdue(userId) {
       return this.findAll({
         where: {
           [Op.and]: {
             dueDate: { [Op.lt]: new Date() },
             completed: { [Op.not]: true },
           },
+          userId:userId
         },
       });
     }
 
-    static todaydue() {
+    static todaydue(userId) {
       return this.findAll({
         where: {
           [Op.and]: {
             dueDate: { [Op.eq]: new Date() },
             completed: { [Op.not]: true },
           },
+          userId:userId
         },
       });
     }
 
-    static laterdue() {
+    static laterdue(userId) {
       return this.findAll({
         where: {
           [Op.and]: {
             dueDate: { [Op.gt]: new Date() },
             completed: { [Op.not]: true },
           },
+          userId:userId
         },
       });
     }
 
-    static completedtodos() {
+    static completedtodos(userId) {
       return this.findAll({
         where: {
           completed: true,
+          userId:userId
         },
       });
     }
 
-    static async addTodo(params) {
+    static async addTodo(params,userid) {
       return await Todo.create({
         title: params.title,
         dueDate: params.dueDate,
         completed: params.completed,
+        userId:userid
       });
     }
 
-    static async deleteTodo(params) {
+    static async deleteTodo(params,userId) {
       return await Todo.destroy({
         where: {
           id: params,
+          userId:userId
         },
       });
     }

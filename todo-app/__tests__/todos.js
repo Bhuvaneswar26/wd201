@@ -5,21 +5,34 @@ const app = require("../app");
 
 let server, agent;
 
+
 describe("Todo Application", function () {
   beforeAll(async () => {
     await db.sequelize.sync({ force: true });
-    server = app.listen(3000, () => {});
+    server = app.listen(3008 || process.env.PORT, () => {});
     agent = request.agent(server);
   });
-
   afterAll(async () => {
-    try {
-      await db.sequelize.close();
-      await server.close();
-    } catch (error) {
-      console.log(error);
-    }
+    await db.sequelize.close();
+    server.close();
   });
+
+  
+
+  test("testing signup", async () => {
+    let res = await agent.get("/signup");
+  
+    res = await agent.post("/users").send({
+      firstName: "test",
+      lastName: "test",
+      email: "test@gmail.com",
+      password: "12345678",
+    });
+  
+    expect(res.statusCode).toBe(302);
+
+  });
+  
 
   test("Creates a todo and responds with JSON at /todos POST endpoint", async () => {
     const response = await agent
